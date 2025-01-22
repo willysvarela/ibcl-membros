@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { CalendarIcon, Upload, Loader2Icon, InstagramIcon } from "lucide-react"
+import { CalendarIcon, Loader2Icon, InstagramIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -14,7 +14,6 @@ import { Calendar } from "@/components/ui/calendar"
 import { toast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 import { submitUser } from "./actions/submit"
-import { useRouter } from "next/navigation"
 import Confetti from "react-confetti"
 import Link from "next/link"
 
@@ -47,7 +46,6 @@ const formSchema = z.object({
 export default function CadastroForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [finished, setFinished] = useState(false)
-  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -96,6 +94,7 @@ export default function CadastroForm() {
         })
       }
     } catch (error) {
+      console.log(error)
       toast({
         title: "Erro",
         description: "Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.",
