@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+    id String @id @default(cuid())
+    phone String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    name String
+    department String
+    fatherName String
+    motherName String
+    fathersPhone String
+    birthDate DateTime
+    teenPhoto String
+    familyPhoto String
+    active Boolean @default(true)
+    MinistryUser MinistryUser[]
+}
+
+model Ministry {
+    id String @id @default(cuid())
+    name String
+    description String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    MinistryUser MinistryUser[]
+}
+
+model MinistryUser {
+    id String @id @default(cuid())
+    ministryId String
+    ministry Ministry @relation(fields: [ministryId], references: [id])
+    userId String
+    user User @relation(fields: [userId], references: [id])
+    createdAt DateTime @default(now())
+    active Boolean @default(true)
+    updatedAt DateTime @updatedAt
+}
