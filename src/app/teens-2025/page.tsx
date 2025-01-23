@@ -22,10 +22,11 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/web
 
 const formSchema = z.object({
   nomeAdolescente: z.string().min(1, "Nome do adolescente é obrigatório"),
-  nomePai: z.string().min(1, "Nome do pai é obrigatório"),
+  nomePai: z.string().optional(),
   nomeMae: z.string().min(1, "Nome da mãe é obrigatório"),
   contatoAdolescente: z.string().optional(),
   contatoPais: z.string().optional(),
+  endereco: z.string().min(3, "O Endereço é obrigatório"),
   dataNascimento: z
     .date({
       required_error: "Data de nascimento é obrigatória",
@@ -53,6 +54,7 @@ export default function CadastroForm() {
       nomePai: "",
       nomeMae: "",
       contatoAdolescente: "",
+      endereco: "",
       contatoPais: "",
       dataNascimento: undefined,
       fotoAdolescente: undefined,
@@ -69,6 +71,7 @@ export default function CadastroForm() {
       formData.append("name", values.nomeAdolescente)
       formData.append("fatherName", values.nomePai)
       formData.append("motherName", values.nomeMae)
+      formData.append("address", values.endereco)
       formData.append("phone", values.contatoAdolescente || "")
       formData.append("fathersPhone", values.contatoPais || "")
       formData.append("birthDate", values.dataNascimento.toISOString())
@@ -158,7 +161,7 @@ export default function CadastroForm() {
             name="nomePai"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nome do Pai *</FormLabel>
+                <FormLabel>Nome do Pai</FormLabel>
                 <FormControl>
                   <Input placeholder="Digite o nome completo" {...field} value={field.value || ""} />
                 </FormControl>
@@ -167,7 +170,7 @@ export default function CadastroForm() {
             )}
           />
 
-          <FormField
+<FormField
             control={form.control}
             name="nomeMae"
             render={({ field }) => (
@@ -175,6 +178,20 @@ export default function CadastroForm() {
                 <FormLabel>Nome da Mãe *</FormLabel>
                 <FormControl>
                   <Input placeholder="Digite o nome completo" {...field} value={field.value || ""} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+<FormField
+            control={form.control}
+            name="endereco"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Endereço Completo *</FormLabel>
+                <FormControl>
+                  <Input placeholder="Digite o endereço completo (ex: Rua das Flores, 123, Ouro Verde)" {...field} value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

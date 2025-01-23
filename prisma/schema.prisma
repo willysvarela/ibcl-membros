@@ -15,12 +15,13 @@ model User {
     updatedAt DateTime @updatedAt
     name String
     department String
-    fatherName String
-    motherName String
+    fatherName String @default("")
+    motherName String @default("")
     fathersPhone String
     birthDate DateTime
     teenPhoto String
     familyPhoto String
+    address String @default("")
     active Boolean @default(true)
     MinistryUser MinistryUser[]
 }
