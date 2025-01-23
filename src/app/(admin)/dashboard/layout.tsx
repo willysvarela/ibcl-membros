@@ -5,11 +5,14 @@ import { useEffect, useState } from "react";
 import { submitLogin } from "./actions/submit";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [status, setStatus] = useState<"invalid" | "loading" | null>(null);
+
+    
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e);
+
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
