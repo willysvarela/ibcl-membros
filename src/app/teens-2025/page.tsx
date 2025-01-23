@@ -69,7 +69,7 @@ export default function CadastroForm() {
       // Create FormData object
       const formData = new FormData()
       formData.append("name", values.nomeAdolescente)
-      formData.append("fatherName", values.nomePai)
+      formData.append("fatherName", values.nomePai || "")
       formData.append("motherName", values.nomeMae)
       formData.append("address", values.endereco)
       formData.append("phone", values.contatoAdolescente || "")
