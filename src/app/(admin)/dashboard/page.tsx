@@ -7,50 +7,11 @@ import { useEffect, useState } from "react";
 import { fetchTeens } from "./actions/fetchTeens";
 import TeensAnimation from "@/components/layout/teensAnimation";
 import Image from "next/image";
-
-const mockTeens = [
-    {
-        id: 1,
-        name: "John Doe",
-        phone: "1234567890",
-        department: "Departamento",
-        photo: "https://picsum.photos/200",
-        fatherName: "Father Name",
-        motherName: "Mother Name",
-        address: "Address",
-        birthDate: "2000-01-01",
-        fathersPhone: "1234567890",
-    },
-    {
-        id: 2,
-        name: "Jane Doe",
-        phone: "1234567890",
-        department: "Departamento",
-        photo: "https://picsum.photos/200",
-        fatherName: "Father Name",
-        motherName: "Mother Name",
-        address: "Address",
-        birthDate: "2000-01-01",
-        fathersPhone: "1234567890",
-    },
-    {
-        id: 3,
-        name: "Mary Doe",
-        phone: "1234567890",
-        department: "Departamento",
-        photo: "https://picsum.photos/200",
-        fatherName: "Father Name",
-        motherName: "Mother Name",
-        address: "Address",
-        birthDate: "2000-01-01",
-        fathersPhone: "1234567890",
-    },
-
-];
+import { User } from "@prisma/client";
 
 const DashboardPage = () => {
     const [search, setSearch] = useState("");
-    const [teens, setTeens] = useState<any[]>([]);
+    const [teens, setTeens] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
