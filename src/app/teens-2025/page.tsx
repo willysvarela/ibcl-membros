@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils"
 import { submitUser } from "./actions/submit"
 import Confetti from "react-confetti"
 import Link from "next/link"
+import TeensAnimation from "@/components/layout/teensAnimation"
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
@@ -110,12 +111,7 @@ export default function CadastroForm() {
 
   const renderAnimation = () => {
     return <div className="sticky top-0 bg-white py-5 flex flex-col gap-5">
-      <div className="motion-preset-fade-lg motion-delay-300 flex justify-center items-center gap-10">
-        <div className={`w-8 h-8 bg-red-500 rounded-full animate-bounce delay-75`}></div>
-        <div className={`w-8 h-8 bg-blue-500 rounded-full animate-bounce delay-200`}></div>
-        <div className={`w-8 h-8 bg-green-500 rounded-full animate-bounce delay-300`}></div>
-        <div className={`w-8 h-8 bg-orange-500 rounded-full animate-bounce delay-500`}></div>
-      </div>
+      <TeensAnimation />
       <h1 className="text-2xl font-bold text-center">Cadastro IBCL Teens 2025</h1>
     </div>
   }
