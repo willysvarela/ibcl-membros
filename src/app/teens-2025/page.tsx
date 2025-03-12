@@ -75,7 +75,7 @@ export default function CadastroForm() {
       formData.append("phone", values.contatoAdolescente || "")
       formData.append("fathersPhone", values.contatoPais || "")
       formData.append("birthDate", values.dataNascimento)
-      formData.append("teenPhoto", values.fotoAdolescente[0])
+      formData.append("photo", values.fotoAdolescente[0])
       formData.append("familyPhoto", values.fotoFamilia[0])
       formData.append("department", "IBCL Teens")
 

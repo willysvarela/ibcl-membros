@@ -19,10 +19,15 @@ model User {
     motherName String @default("")
     fathersPhone String
     birthDate DateTime
-    teenPhoto String
+    photo String @default("")
     familyPhoto String
     address String @default("")
     active Boolean @default(true)
+    membershipType String @default("Visitante") // Batizado, Aclamado, Carta, Visitante
+    civilStatus String @default("Solteiro") // Solteiro, Viuvo, Casado, Divorciado
+    engagementDate DateTime? // Optional date field
+    group String @default("") // GCO or GA group
+    ministries String @default("") // Ministries the user is part of
     MinistryUser MinistryUser[]
 }
 

@@ -9,17 +9,17 @@ export const fetchTeens = async () => {
         const teens = await prisma.user.findMany();
 
         const teensWithPhotos = await Promise.all(teens.map(async (teen) => {
-            supabase.storage.from(process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET_ID || "").getPublicUrl(teen.teenPhoto, {
+            supabase.storage.from(process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET_ID || "").getPublicUrl(teen.photo, {
                 
             })
-            const teenPhotoUrl = await supabase.storage.from(process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET_ID || "").getPublicUrl(teen.teenPhoto || "");
+            const teenPhotoUrl = await supabase.storage.from(process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET_ID || "").getPublicUrl(teen.photo || "");
             const familyPhotoUrl = await supabase.storage.from(process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET_ID || "").getPublicUrl(teen.familyPhoto || "");
 
             const teenPhoto = fixUrl(teenPhotoUrl.data.publicUrl);
             const familyPhoto = fixUrl(familyPhotoUrl.data.publicUrl);
 
             console.log({teenPhoto, familyPhoto})
-            return { ...teen, teenPhoto: teenPhoto, familyPhoto: familyPhoto };
+            return { ...teen, photo: teenPhoto, familyPhoto: familyPhoto };
         }));
 
         console.log("teens fetched", teensWithPhotos);

@@ -17,8 +17,18 @@ export const submitUser = async (formData: FormData) => {
         photo: "",
         familyPhoto: "",
         fathersPhone: formData.get("fathersPhone") as string,
-
+        membershipType: formData.get("membershipType") as string,
+        civilStatus: formData.get("civilStatus") as string,
+        group: formData.get("group") as string,
+        ministries: formData.get("ministries") as string,
     }
+
+    // Handle optional engagementDate
+    const engagementDateStr = formData.get("engagementDate") as string
+    if (engagementDateStr) {
+        user.engagementDate = new Date(engagementDateStr)
+    }
+
     const result = await createUser(user)
 
     if(!result) {
@@ -27,9 +37,9 @@ export const submitUser = async (formData: FormData) => {
     const photoBlob = formData.get("photo") as File
     const familyPhotoBlob = formData.get("familyPhoto") as File
 
-    const teenPhoto = new Blob([photoBlob], { type: photoBlob.type })
+    const photo = new Blob([photoBlob], { type: photoBlob.type })
     const familyPhoto = new Blob([familyPhotoBlob], { type: familyPhotoBlob.type })
-    const resultUpdate = await updateUserPhotos(result, teenPhoto, familyPhoto)
+    const resultUpdate = await updateUserPhotos(result, photo, familyPhoto)
 
     if(!resultUpdate) {
         return null
@@ -57,13 +67,13 @@ const uploadPhoto = async (photo: Blob) => {
     }
 }
 
-const updateUserPhotos = async (user: Partial<User>, familyPhoto: Blob, photo: Blob) => {
+const updateUserPhotos = async (user: Partial<User>, photo: Blob, familyPhoto: Blob) => {
     try {
-        const familyPhotoURL = await uploadPhoto(familyPhoto)
         const photoURL = await uploadPhoto(photo)
+        const familyPhotoURL = await uploadPhoto(familyPhoto)
 
-    const result = await prisma.user.update({
-        where: { id: user.id },
+        const result = await prisma.user.update({
+            where: { id: user.id },
             data: { photo: photoURL!, familyPhoto: familyPhotoURL! }
         })
         return result
@@ -87,8 +97,12 @@ const createUser = async (user: Partial<User>) => {
                 birthDate: new Date(user.birthDate!),
                 photo: user.photo!,
                 familyPhoto: user.familyPhoto!,
-                fathersPhone: user.fathersPhone!
-
+                fathersPhone: user.fathersPhone!,
+                membershipType: user.membershipType!,
+                civilStatus: user.civilStatus!,
+                group: user.group!,
+                ministries: user.ministries!,
+                engagementDate: user.engagementDate,
             },
         });
         console.log(user.id + " created")
@@ -101,4 +115,4 @@ const createUser = async (user: Partial<User>) => {
         console.error(error)
         return null
     }
-}
+} 
