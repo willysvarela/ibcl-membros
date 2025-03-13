@@ -58,7 +58,7 @@ const DashboardPage = () => {
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <div className="flex flex-col gap-4 items-center mt-10">
             <div className="w-full">
-                <Input className="w-full" placeholder="Procurar Adolescente" onChange={(e) => setSearch(e.target.value)} />
+                <Input className="w-full" placeholder="Procurar Membro" onChange={(e) => setSearch(e.target.value)} />
             </div>
             <Table className="hidden md:table">
                 <TableHeader>
