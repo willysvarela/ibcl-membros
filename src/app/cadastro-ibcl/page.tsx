@@ -28,7 +28,6 @@ const formSchema = z.object({
   nomeMae: z.string().optional(),
   contato: z.string().min(1, "Contato é obrigatório"),
   contatoPais: z.string().optional(),
-  endereco: z.string().min(3, "O Endereço é obrigatório"),
   dataNascimento: z
     .string({
       required_error: "Data de nascimento é obrigatória",
@@ -36,11 +35,6 @@ const formSchema = z.object({
   foto: z
     .custom<FileList>()
     .refine((files) => files?.length === 1, "Foto é obrigatória")
-    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, "Tamanho máximo do arquivo é 5MB")
-    .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type), "Formato aceito: .jpg, .jpeg, .png e .webp"),
-  fotoFamilia: z
-    .custom<FileList>()
-    .refine((files) => files?.length === 1, "Foto da família é obrigatória")
     .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, "Tamanho máximo do arquivo é 5MB")
     .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type), "Formato aceito: .jpg, .jpeg, .png e .webp"),
   tipoMembro: z.enum(["Batizado", "Aclamado", "Carta", "Visitante"], {
@@ -84,11 +78,9 @@ export default function CadastroForm() {
       nomePai: "",
       nomeMae: "",
       contato: "",
-      endereco: "",
       contatoPais: "",
       dataNascimento: undefined,
       foto: undefined,
-      fotoFamilia: undefined,
       tipoMembro: "Visitante",
       estadoCivil: "Solteiro",
       dataCasamento: undefined,
@@ -108,12 +100,10 @@ export default function CadastroForm() {
       formData.append("name", values.nome)
       formData.append("fatherName", values.nomePai || "")
       formData.append("motherName", values.nomeMae || "")
-      formData.append("address", values.endereco)
       formData.append("phone", values.contato)
       formData.append("fathersPhone", values.contatoPais || "")
       formData.append("birthDate", values.dataNascimento)
       formData.append("photo", values.foto[0])
-      formData.append("familyPhoto", values.fotoFamilia[0])
       formData.append("department", "IBCL")
       formData.append("membershipType", values.tipoMembro)
       formData.append("civilStatus", values.estadoCivil)
@@ -188,20 +178,6 @@ export default function CadastroForm() {
                   <FormLabel>Nome Completo *</FormLabel>
                   <FormControl>
                     <Input placeholder="Digite o nome completo" {...field} value={field.value || ""} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="endereco"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Endereço Completo *</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Digite o endereço completo (ex: Rua das Flores, 123, Ouro Verde)" {...field} value={field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -360,7 +336,7 @@ export default function CadastroForm() {
               name="grupo"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Faz parte de algum GCO ou GA? Se sim, Qual?</FormLabel>
+                  <FormLabel>Faz parte de algum GCO ou GA? Se sim, qual?</FormLabel>
                   <FormControl>
                     <Input placeholder="Digite o nome do grupo" {...field} value={field.value || ""} />
                   </FormControl>
@@ -374,7 +350,7 @@ export default function CadastroForm() {
               name="ministerios"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Faz parte de algum Ministério? Se sim, quais?</FormLabel>
+                  <FormLabel>Faz parte de algum Ministério? Se sim, qual?</FormLabel>
                   <FormControl>
                     <Input placeholder="Digite os ministérios" {...field} value={field.value || ""} />
                   </FormControl>
@@ -389,27 +365,6 @@ export default function CadastroForm() {
               render={({ field: { onChange, value, ...field } }) => (
                 <FormItem>
                   <FormLabel>Sua Foto *</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      accept="image/png, image/jpeg, image/webp"
-                      onChange={(e) => onChange(e.target.files)}
-                      value={undefined}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>Formatos aceitos: JPG, JPEG, PNG e WEBP. Tamanho máximo: 5MB</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="fotoFamilia"
-              render={({ field: { onChange, value, ...field } }) => (
-                <FormItem>
-                  <FormLabel>Foto da Família *</FormLabel>
                   <FormControl>
                     <Input
                       type="file"

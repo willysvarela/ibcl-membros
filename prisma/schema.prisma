@@ -20,7 +20,7 @@ model User {
     fathersPhone String
     birthDate DateTime
     photo String @default("")
-    familyPhoto String
+    familyPhoto String @default("")
     address String @default("")
     active Boolean @default(true)
     membershipType String @default("Visitante") // Batizado, Aclamado, Carta, Visitante

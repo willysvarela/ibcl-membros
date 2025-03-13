@@ -30,7 +30,13 @@ const DashboardPage = () => {
         });
     }, []);
 
-    if(loading) {
+    const formatDate = (date: Date) => {
+        // add 12 hours to the date
+        const newDate = new Date(date.getTime() + 12 * 60 * 60 * 1000);
+        return newDate.toLocaleDateString();
+    }
+
+    if (loading) {
         return <div>
             <div className="flex justify-center items-center min-h-screen">
                 <TeensAnimation />
@@ -38,7 +44,7 @@ const DashboardPage = () => {
         </div>
     }
 
-    if(error) {
+    if (error) {
         return <div>
             <div className="flex flex-col gap-6 justify-center items-center min-h-screen">
                 <p>Ocorreu um erro ao carregar os adolescentes</p>
@@ -60,12 +66,10 @@ const DashboardPage = () => {
                         <TableHead>Foto</TableHead>
                         <TableHead>Nome</TableHead>
                         <TableHead>Telefone</TableHead>
-                        <TableHead>Departamento</TableHead>
-                        <TableHead>Nome do Pai</TableHead>
-                        <TableHead>Nome da Mãe</TableHead>
-                        <TableHead>Endereço</TableHead>
+                        <TableHead>Estado Civil</TableHead>
                         <TableHead>Data de Nascimento</TableHead>
-                        <TableHead>Telefone do Pai</TableHead>
+                        <TableHead>Grupo</TableHead>
+                        <TableHead>Ministérios</TableHead>
                         <TableHead>Ações</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -78,28 +82,15 @@ const DashboardPage = () => {
 
                             <TableCell>{teen.name}</TableCell>
                             <TableCell>{teen.phone}</TableCell>
-                            <TableCell>{teen.department}</TableCell>
-                            <TableCell>{teen.fatherName}</TableCell>
-                            <TableCell>{teen.motherName}</TableCell>
-                                <TableCell>
-                                <a className="text-blue-500 underline" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(teen.address)}`} target="_blank" rel="noopener noreferrer">
-                                        {teen.address}
-                                    </a>
-                                </TableCell>
-                            <TableCell>{new Date(teen.birthDate).toLocaleDateString()}</TableCell>
-                            <TableCell>{teen.fathersPhone}</TableCell>
+                            <TableCell>{teen.civilStatus} {teen.engagementDate ? ` - ${formatDate(teen.engagementDate)}` : ""}</TableCell>
+                            <TableCell>{formatDate(teen.birthDate)}</TableCell>
+                            <TableCell>{teen.group}</TableCell>
+                            <TableCell>{teen.ministries}</TableCell>
                             <TableCell>
                                 <div className="flex flex-col gap-2 items-center">
                                     <Button variant="outline" onClick={() => window.open(`https://wa.me/${teen.phone}`, '_blank')}>Falar no Whatsapp</Button>
-                                    <Button
-                                variant="outline"
-                                className="w-full mt-2"
-                                onClick={() => window.open(`https://wa.me/${teen.fathersPhone}`, '_blank')}
-                            >
-                                Falar com Pais no Whatsapp
-                            </Button>
                                 </div>
-                                
+
                             </TableCell>
                         </TableRow>
                     ))}
@@ -112,7 +103,6 @@ const DashboardPage = () => {
                             <UserPhotoDialog teen={teen} />
                             <div>
                                 <CardTitle>{teen.name}</CardTitle>
-                                <p className="text-sm text-muted-foreground">{teen.department}</p>
                             </div>
                         </CardHeader>
                         <CardContent className="grid gap-2">
@@ -120,34 +110,24 @@ const DashboardPage = () => {
                                 <span className="font-semibold">Telefone:</span> {teen.phone}
                             </div>
                             <div>
-                                <span className="font-semibold">Pais:</span> {teen.fatherName} e {teen.motherName}
+                                <span className="font-semibold">Estado Civil:</span> {teen.civilStatus} {teen.engagementDate ? ` - ${formatDate(teen.engagementDate)}` : ""}
                             </div>
                             <div>
-                                <span className="font-semibold">Endereço:</span>
-                                    <a className="text-blue-500 underline" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(teen.address)}`} target="_blank" rel="noopener noreferrer">
-                                        {teen.address}
-                                    </a>
+                                <span className="font-semibold">Data de Nascimento:</span> {formatDate(teen.birthDate)}
                             </div>
                             <div>
-                                <span className="font-semibold">Data de Nascimento:</span> {new Date(teen.birthDate).toLocaleDateString()}
+                                <span className="font-semibold">Grupo:</span> {teen.group}
                             </div>
                             <div>
-                                <span className="font-semibold">Telefone dos Pais:</span> {teen.fathersPhone}
+                                <span className="font-semibold">Ministérios:</span> {teen.ministries}
                             </div>
                             <div className="flex flex-col gap-2">
-                            <Button
-                                variant="outline"
-                                className="w-full mt-2"
-                                onClick={() => window.open(`https://wa.me/${teen.phone}`, '_blank')}
-                            >
-                                Falar no Whatsapp
-                            </Button>
-                            <Button
-                                variant="outline"
-                                className="w-full mt-2"
-                                onClick={() => window.open(`https://wa.me/${teen.fathersPhone}`, '_blank')}
-                            >
-                                    Falar com Pais no Whatsapp
+                                <Button
+                                    variant="outline"
+                                    className="w-full mt-2"
+                                    onClick={() => window.open(`https://wa.me/${teen.phone}`, '_blank')}
+                                >
+                                    Falar no Whatsapp
                                 </Button>
                             </div>
                         </CardContent>
@@ -156,7 +136,7 @@ const DashboardPage = () => {
             </div>
         </div>
 
-        
+
     </div>;
 };
 

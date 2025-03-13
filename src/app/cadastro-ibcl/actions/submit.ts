@@ -35,11 +35,9 @@ export const submitUser = async (formData: FormData) => {
         return { success: false, message: "Erro ao criar usuário" }
     }
     const photoBlob = formData.get("photo") as File
-    const familyPhotoBlob = formData.get("familyPhoto") as File
 
     const photo = new Blob([photoBlob], { type: photoBlob.type })
-    const familyPhoto = new Blob([familyPhotoBlob], { type: familyPhotoBlob.type })
-    const resultUpdate = await updateUserPhotos(result, photo, familyPhoto)
+    const resultUpdate = await updateUserPhotos(result, photo)
 
     if(!resultUpdate) {
         return null
@@ -67,14 +65,13 @@ const uploadPhoto = async (photo: Blob) => {
     }
 }
 
-const updateUserPhotos = async (user: Partial<User>, photo: Blob, familyPhoto: Blob) => {
+const updateUserPhotos = async (user: Partial<User>, photo: Blob) => {
     try {
         const photoURL = await uploadPhoto(photo)
-        const familyPhotoURL = await uploadPhoto(familyPhoto)
 
         const result = await prisma.user.update({
             where: { id: user.id },
-            data: { photo: photoURL!, familyPhoto: familyPhotoURL! }
+            data: { photo: photoURL! }
         })
         return result
     } catch (error) {
@@ -93,10 +90,9 @@ const createUser = async (user: Partial<User>) => {
                 department: user.department!,
                 fatherName: user.fatherName!,
                 motherName: user.motherName!,
-                address: user.address!,
+                address: user.address || "",
                 birthDate: new Date(user.birthDate!),
                 photo: user.photo!,
-                familyPhoto: user.familyPhoto!,
                 fathersPhone: user.fathersPhone!,
                 membershipType: user.membershipType!,
                 civilStatus: user.civilStatus!,
