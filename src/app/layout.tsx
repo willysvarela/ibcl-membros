@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "IBCL Teens 2025",
-  description: "Cadastro IBCL Teens 2025",
+  title: "Cadastro IBCL 2025",
+  description: "Igreja Batista Central Leste",
 };
 
 export default function RootLayout({
